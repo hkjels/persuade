@@ -1,0 +1,427 @@
+:PROPERTIES: 
+# Front-page
+#+TITLE:    Persuade
+#+SUBTITLE: A mashup of software that I would like to introduce to my co-workers
+#+AUTHOR:   Henrik Kjerringvåg
+#+EMAIL:    henrik@kjerringvåg.no
+
+#+STARTUP:  overview
+#+LANGUAGE: en
+
+# Tags
+#+SEQ_TODO:            TODO(t) INPROGRESS(i) REVIEW(r@) | DONE(d) CANCELED(c@)
+#+TAGS:                noexport(n) noslide(s) nopdf(p) nohtml(h)
+#+EXPORT_EXCLUDE_TAGS: noexport
+
+# Tangling
+#+PROPERTY:            mkdirp yes
+#+PROPERTY:            noweb yes
+#+PROPERTY:            cache
+
+# HTML
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/readtheorg/css/htmlize.css"/>
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/readtheorg/css/readtheorg.css"/>
+#+HTML_HEAD: <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+#+HTML_HEAD: <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/lib/js/jquery.stickytableheaders.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/readtheorg/js/readtheorg.js"></script>
+
+# PDF
+#+LaTeX_CLASS:  article
+#+LaTeX_HEADER: \usemintedstyle{colorful}
+#+LATEX_HEADER: \usepackage{setspace}
+#+LATEX_HEADER: \doublespacing
+#+LATEX_HEADER: \usepackage[margin=1in]{geometry}
+#+LATEX_HEADER: \usepackage{hyperref}
+#+LATEX_HEADER: \hypersetup{
+#+LATEX_HEADER:     colorlinks,%
+#+LATEX_HEADER:     citecolor=black,%
+#+LATEX_HEADER:     filecolor=black,%
+#+LATEX_HEADER:     linkcolor=magenta,%
+#+LATEX_HEADER:     urlcolor=black
+#+LATEX_HEADER: }
+#+OPTIONS:      tex:t tasks:nil inline:nil tags:nil
+
+# Slides
+#+OPTIONS:              reveal_title_slide:nil 
+#+REVEAL_THEME:         solarized
+#+REVEAL_HIGHLIGHT_CSS: https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/styles/solarized-dark.min.css
+#+REVEAL_ROOT:          reveal.js
+#+REVEAL_PLUGINS:       (highlight notes)
+:END:
+
+* Clojure
+A modern Lisp on top of the JVM; and now also the browser through ClojureScript
+#+BEGIN_NOTES
+So, why Clojure?
+#+END_NOTES
+
+** Mature Community
+#+BEGIN_NOTES
+Where code is extensively tested before every major release
+#+END_NOTES
+
+** Macros
+#+BEGIN_NOTES
+As with most Lisps, Clojure has macros
+#+END_NOTES
+
+** Persistent Data-Structures
+#+BEGIN_NOTES
+- Highly efficient trees through structural-sharing
+- Immutable
+- Not garbage-collected
+#+END_NOTES
+
+** Great Story for Concurrency and Parallelization
+#+BEGIN_NOTES
+Parallelization is easier with any functional language as you can scale almost
+limitless for all functions without side-effects. For concurrency, Clojure &
+ClojureScript has a library that's called ~core.async~ that gets you out of
+callback-hell with namespaced messaging.
+#+END_NOTES
+
+** Real-Time Code-Injection
+#+BEGIN_NOTES
+Since our data persists, we can change our view-code, logic and styles; inject
+it and still have our state without blowing up our browser-history. And, it's
+blazing fast and works on react-native as well!
+#+END_NOTES
+
+** Property-Based Testing
+#+BEGIN_NOTES
+Also called generative-testing. Basically, you create a specification for the
+function you'd like to test, and you can generate a whole lot of input to try
+out corner-cases. The explained output will only cover the failing tests, so
+it's still quite easy to handle.
+#+END_NOTES
+
+** And It's Really Quite Elegant                                     :noslide:
+#+NAME: instruments
+| Instrument | Price |
+|------------+-------|
+| Guitar     |  1200 |
+| Piano      | 55000 |
+| Violin     | 18700 |
+
+So the argument against Lisps are usually that it's hard to read and way to many
+parenthesis.
+
+#+BEGIN_SRC clojure :var instruments=instruments
+(reduce + (filter number? (map #(last %) instruments)))
+#+END_SRC
+
+As you can see, that's partially true; except we have macros like the threading-macros (~->~, ~->>~)
+that makes it possible to write the same piece of code in a much more succinct, readable manner.
+
+#+BEGIN_SRC clojure :var instruments=instruments
+(->> instruments
+     (map #(last %))
+     (filter number?)
+     (reduce +))
+#+END_SRC
+
+#+RESULTS: :exports t
+: 74900
+
+* Om.next
+An accumulation of ideas from Falcor, Relay & Datomic
+#+BEGIN_NOTES
+I mentioned earlier that the Clojure-community tends to be thorough. ~Om.next~
+and David Nolean is a testament to that. If you where to ask me, I think
+~om.next~ is more production-grade quality than anything you can find on ~npm~,
+but it's still in alpha.
+#+END_NOTES
+** What Sets It Apart?
+#+ATTR_REVEAL: :frag (roll-in)
+Views in Control
+
+#+ATTR_REVEAL: :frag (roll-in)
+No Garbage Over the Wire
+
+#+ATTR_REVEAL: :frag (roll-in)
+Efficient Caching
+
+#+ATTR_REVEAL: :frag (roll-in)
+Manipulation of Time
+
+#+ATTR_REVEAL: :frag (roll-in)
+World-Inspection
+
+*** Views in Control :noslide:
+So, what I mean about views being in control is the fact that they query for the data they need directly.
+Not only do they query for their data directly, but also the shape they want to receive it in.
+
+#+NAME: Contacts
+#+BEGIN_SRC clojure :results silent
+(defview ContactPhoto
+  [user [fullname photo]]
+  (render
+   (html [:img {:alt fullname :src photo}])))
+
+(defview Contact
+  [db [id] {user [firstname lastname email ContactPhoto]}]
+  (render
+   (let [fullname (str firstname " " lastname)
+         props (om/props this)]
+     (html [:li
+            [(contact-photo (om/computed props {:fullname fullname}))]
+            [:a {:href (str "mailto:" email)} fullname]]))))
+
+(defview Contacts
+  [{contacts Contact}]
+  (render
+   (html [:ul (map contact contacts)])))
+#+END_SRC
+
+So, we have some well-defined views that all query for whatever they need.
+Now, lets have a look at what's being asked for over the wire.
+
+#+BEGIN_SRC clojure
+(in-ns 'persuade.views.contacts)
+(om/get-query Contacts)
+#+END_SRC
+
+*** No Garbage Over the Wire :noslide:
+Now, lets actually send the query and see what's really returned.
+
+#+NAME: Garbage
+#+BEGIN_SRC clojure
+(parser {:state app-state} (om/get-query Contacts) :static)
+#+END_SRC
+
+Ét voila! You can see that our vectors has turned into a map where the symbols
+are keys and they are all filled with "real values". And notice, we only get
+exactly what we asked for, no added garbage.
+
+*** Efficient Caching :noslide:
+So the caching-story is pretty sweet. To interact with a server, you have to set
+up one or more remotes.
+
+#+NAME: Remotes
+#+BEGIN_SRC clojure
+[:static :search]
+#+END_SRC
+
+A function that handles send/receive to and from the server and a bunch of
+parsers that use these remotes as well as place the data at the correct position
+in your application-state.
+
+#+NAME: Read
+#+BEGIN_SRC clojure
+(defmethod read :default
+  [{:keys [state query]} k _]
+  (let [st @state]
+    (if (contains? st k)
+      {:value (om/db->tree query st st)}
+      {:static true})))
+#+END_SRC
+
+#+NAME: Mutate
+#+BEGIN_SRC clojure
+(defmethod mutate :default
+  [_ _ _]
+  {:static true})
+#+END_SRC
+
+*** Manipulation of Time :noslide:
+*** World-Inspection :noslide:
+\newpage
+
+* Datomic
+Is a time-aware database that stores facts
+** Query / Transaction / Storage
+#+ATTR_REVEAL: :frag (roll-in)
+Exchangable Query-Language
+#+ATTR_REVEAL: :frag (roll-in)
+ACID-Transactions
+#+ATTR_REVEAL: :frag (roll-in)
+Plethora of Available Storages (Dynamo, Postgres ..)
+
+** Facts
+#+ATTR_REVEAL: :frag (roll-in)
+Makes it Possible to go Back and Forth in Time
+#+ATTR_REVEAL: :frag (roll-in)
+Facts can be About a Transaction
+#+ATTR_REVEAL: :frag (roll-in)
+You Never Loose Anything
+
+** Pull-syntax
+Just like Falcor and Relay, Datomic allows the client to decide the shape of the
+data returned
+#+BEGIN_SRC clojure
+;; pattern
+[:artist/name :artist/gid]
+
+;; result
+{:artist/gid #uuid "678d88b2-87b0..", :artist/name "Led Zeppelin"}
+#+END_SRC
+
+* Garden
+The full power of Clojure for writing stylesheets
+#+BEGIN_SRC clojure
+(defn drop-down []
+  [[:menu.drop-down {:background-color :white
+                     :display :block
+                     :color (rgb 80 80 80)
+                     :border-radius (rem 0.3)
+                     :box-shadow [[0 (px 1) (px 3) (rgba 0 0 0 0.3)]]
+                     :padding (rem 0.5)}
+    [:a {:display :block
+         :color :inherit
+         :text-decoration :none
+         :border-radius (rem 0.3)
+         :padding [[(rem 0.5) (rem 1)]]}
+     [:&.active {:background-color (color/lighten c/blue 50)
+                 :color c/blue}]]]])
+#+END_SRC
+#+BEGIN_NOTES
+You can imagine creating grid-styles using real math-operations etc.
+It is also supported by ClojureScript, so you can do things on the fly.
+#+END_NOTES
+
+* Thank you for listening!                                            :nopdf:nohtml:
+You can find this presentation and some more examples @
+[[https://hkjels.github.com/persuade/]]
+#+BEGIN_NOTES
+Any questions?
+#+END_NOTES
+
+* Source                                                           :noexport:
+
+The source-code below is just a bunch of boilerplate needed to make the wheels
+turn. The important bits are spread throughout the document. Please feel free to
+look away!
+
+** Makefile
+#+BEGIN_SRC makefile :tangle Makefile
+EMACS:="$(shell type -p emacs)"
+ORGMODE=--batch --no-init-file --eval "(require 'org)"
+LL=ls -1
+GREPV=grep -v
+RM=rm -rf
+
+SRC:=Readme.org
+
+.PHONY: clean tangle
+
+tangle: $(SRC)
+	@$(EMACS) $(ORGMODE) --visit "$<" --funcall org-babel-tangle > /dev/null 2>&1
+	@echo "$^ was successfully tangled"
+
+clean:
+	$(LL) | $(GREPV) "Readme.org\|Makefile\|.git*\|reveal.js\|LICENSE" | xargs $(RM)
+#+END_SRC
+
+** Lein project definition
+#+BEGIN_SRC clojure :tangle src/project.clj :results silent
+(defproject persuade "0.0.1"
+  :description "A mashup of software that I would like to introduce to my co-workers"
+  :url "https://hkjels.github.com/persuade/"
+  :dependencies [[org.clojure/clojure "1.9.0-alpha10"]
+                 [org.clojure/clojurescript "1.9.89"]
+                 [org.clojure/core.async "0.2.385" :exclusions [org.clojure/tools.reader]]
+                 [org.omcljs/om "1.0.0-alpha42-SNAPSHOT"]
+                 [cljsjs/react "15.2.0-0"]
+                 [cljsjs/react-dom "15.2.0-0"]
+                 [workflo/macros "0.2.13"]
+                 [sablono "0.7.2" :exclusions [cljsjs/react]]]
+  :plugins [[lein-cljsbuild "1.1.3"]]
+  :source-paths ["dev"]
+  :cljsbuild {:builds [{:source-paths ["dev"]
+                        :compiler {:output-to "resources/public/js/persuade.js"
+                                   :pretty-print true}}]})
+#+END_SRC
+
+** Core functionality
+#+BEGIN_SRC clojure :tangle src/dev/cljs/persuade/core.cljs :results silent
+(ns persuade.core
+  (:require-macros [cljs.core.async.macros :refer [go]])
+  (:require [cljs-http.client :as http]
+            [om.next :as om]
+            [cljs.core.async :refer [<!]]))
+
+(def transit "application/transit+json")
+
+(def transit-opts
+     {:encoding-opts {:handlers {transit om/writer}}
+      :decoding-opts {:handlers {transit om/reader}}})
+
+(defn send
+  "Sends a transit POST-request and returns a merged response upon success"
+  [url]
+  #?@(:cljs (fn [{:keys [remote]} merge]
+              (go (let [{:keys [query rewrite]} (om/process-roots remote)
+                        {:keys [status body]}   (<! (http/post url {:transit-params query
+                                                                    :transit-opts   transit-opts}))]
+                    (when (= 200 status)
+                      (merge (rewrite body))))))
+      :clj (fn [{:keys [remote]} merge]
+             (let [{:keys [query rewrite]} (om/process-roots remote)]
+               ;; TODO Communicate directly with datomic
+               ))))
+
+(defmulti read-fn om/dispatch)
+(defmulti write-fn om/dispatch)
+
+<<Read>>
+
+<<Mutate>>
+
+(defonce initial-state {})
+
+(defonce parser
+  (om/parser {:read   read
+              :mutate mutate}))
+
+(defonce reconciler
+  {:state   initial-state
+   :parser  parser
+   :send    (send "/api")
+   :remotes <<Remotes>>})
+#+END_SRC
+
+** Contacts view
+#+BEGIN_SRC clojure :tangle src/dev/cljs/persuade/views/contacts.cljs :results silent
+(ns persuade.views.contacts
+  (:require [om.next :as om]
+            [workflo.macros.view :refer-macros [defview]]
+            [sablono.core :as html :refer-macros [html]]))
+
+<<Contacts>>
+#+END_SRC
+
+* Support                                                          :noexport:
+
+This section is about ease of development and making the presentation run
+smoothly.
+
+** REPL
+Boot up a ClojureScript REPL
+#+BEGIN_SRC elisp :results silent
+(cider-jack-in)
+#+END_SRC
+
+** Export HTML
+#+BEGIN_SRC elisp :results silent
+(let ((org-export-exclude-tags '("nohtml" "noexport")))
+  (org-html-export-to-html)
+  (shell-command "mv ./Readme.html ./index.html")
+  (shell-command "open ./index.html"))
+#+END_SRC
+
+** Export PDF
+#+BEGIN_SRC elisp :results silent
+(let ((org-export-exclude-tags '("nopdf" "noexport")))
+  (org-latex-export-to-pdf)
+  (shell-command "open ./Readme.pdf"))
+#+END_SRC
+
+** Export Slides
+#+BEGIN_SRC elisp :results silent
+(let ((org-export-exclude-tags '("noslide" "noexport"))
+      (org-export-with-toc nil)
+      (org-export-with-section-numbers nil))
+  (org-reveal-export-to-html-and-browse))
+#+END_SRC
+

@@ -1,0 +1,639 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2016-08-15 Mon 10:17 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="viewport" content="width=device-width, initial-scale=1" />
+<title>Persuade</title>
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="Henrik Kjerringvåg" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/readtheorg/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/readtheorg/css/readtheorg.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="http://www.pirilampo.org/styles/lib/js/jquery.stickytableheaders.js"></script>
+<script type="text/javascript" src="http://www.pirilampo.org/styles/readtheorg/js/readtheorg.js"></script>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Persuade
+<br>
+<span class="subtitle">A mashup of software that I would like to introduce to my co-workers</span>
+</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgheadline8">1. Clojure</a>
+<ul>
+<li><a href="#orgheadline1">1.1. Mature Community</a></li>
+<li><a href="#orgheadline2">1.2. Macros</a></li>
+<li><a href="#orgheadline3">1.3. Persistent Data-Structures</a></li>
+<li><a href="#orgheadline4">1.4. Great Story for Concurrency and Parallelization</a></li>
+<li><a href="#orgheadline5">1.5. Real-Time Code-Injection</a></li>
+<li><a href="#orgheadline6">1.6. Property-Based Testing</a></li>
+<li><a href="#orgheadline7">1.7. And It's Really Quite Elegant</a></li>
+</ul>
+</li>
+<li><a href="#orgheadline15">2. Om.next</a>
+<ul>
+<li><a href="#orgheadline14">2.1. What Sets It Apart?</a>
+<ul>
+<li><a href="#orgheadline9">2.1.1. Views in Control</a></li>
+<li><a href="#orgheadline10">2.1.2. No Garbage Over the Wire</a></li>
+<li><a href="#orgheadline11">2.1.3. Efficient Caching</a></li>
+<li><a href="#orgheadline12">2.1.4. Manipulation of Time</a></li>
+<li><a href="#orgheadline13">2.1.5. World-Inspection</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgheadline19">3. Datomic</a>
+<ul>
+<li><a href="#orgheadline16">3.1. Query / Transaction / Storage</a></li>
+<li><a href="#orgheadline17">3.2. Facts</a></li>
+<li><a href="#orgheadline18">3.3. Pull-syntax</a></li>
+</ul>
+</li>
+<li><a href="#orgheadline20">4. Garden</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgheadline8" class="outline-2">
+<h2 id="orgheadline8"><span class="section-number-2">1</span> Clojure</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+A modern Lisp on top of the JVM; and now also the browser through ClojureScript
+</p>
+<div class="NOTES">
+<p>
+So, why Clojure?
+</p>
+
+</div>
+</div>
+
+<div id="outline-container-orgheadline1" class="outline-3">
+<h3 id="orgheadline1"><span class="section-number-3">1.1</span> Mature Community</h3>
+<div class="outline-text-3" id="text-1-1">
+<div class="NOTES">
+<p>
+Where code is extensively tested before every major release
+</p>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgheadline2" class="outline-3">
+<h3 id="orgheadline2"><span class="section-number-3">1.2</span> Macros</h3>
+<div class="outline-text-3" id="text-1-2">
+<div class="NOTES">
+<p>
+As with most Lisps, Clojure has macros
+</p>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgheadline3" class="outline-3">
+<h3 id="orgheadline3"><span class="section-number-3">1.3</span> Persistent Data-Structures</h3>
+<div class="outline-text-3" id="text-1-3">
+<div class="NOTES">
+<ul class="org-ul">
+<li>Highly efficient trees through structural-sharing</li>
+<li>Immutable</li>
+<li>Not garbage-collected</li>
+</ul>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgheadline4" class="outline-3">
+<h3 id="orgheadline4"><span class="section-number-3">1.4</span> Great Story for Concurrency and Parallelization</h3>
+<div class="outline-text-3" id="text-1-4">
+<div class="NOTES">
+<p>
+Parallelization is easier with any functional language as you can scale almost
+limitless for all functions without side-effects. For concurrency, Clojure &amp;
+ClojureScript has a library that's called <code>core.async</code> that gets you out of
+callback-hell with namespaced messaging.
+</p>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgheadline5" class="outline-3">
+<h3 id="orgheadline5"><span class="section-number-3">1.5</span> Real-Time Code-Injection</h3>
+<div class="outline-text-3" id="text-1-5">
+<div class="NOTES">
+<p>
+Since our data persists, we can change our view-code, logic and styles; inject
+it and still have our state without blowing up our browser-history. And, it's
+blazing fast and works on react-native as well!
+</p>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgheadline6" class="outline-3">
+<h3 id="orgheadline6"><span class="section-number-3">1.6</span> Property-Based Testing</h3>
+<div class="outline-text-3" id="text-1-6">
+<div class="NOTES">
+<p>
+Also called generative-testing. Basically, you create a specification for the
+function you'd like to test, and you can generate a whole lot of input to try
+out corner-cases. The explained output will only cover the failing tests, so
+it's still quite easy to handle.
+</p>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgheadline7" class="outline-3">
+<h3 id="orgheadline7"><span class="section-number-3">1.7</span> And It's Really Quite Elegant</h3>
+<div class="outline-text-3" id="text-1-7">
+<table id="orgtable1" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Instrument</th>
+<th scope="col" class="org-right">Price</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Guitar</td>
+<td class="org-right">1200</td>
+</tr>
+
+<tr>
+<td class="org-left">Piano</td>
+<td class="org-right">55000</td>
+</tr>
+
+<tr>
+<td class="org-left">Violin</td>
+<td class="org-right">18700</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+So the argument against Lisps are usually that it's hard to read and way to many
+parenthesis.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-clojure"><span style="color: #2aa198;">(</span>reduce + <span style="color: #b58900;">(</span>filter number? <span style="color: #268bd2;">(</span>map #<span style="color: #6c71c4;">(</span>last <span style="color: #268bd2;">%</span><span style="color: #6c71c4;">)</span> instruments<span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+</pre>
+</div>
+
+<p>
+As you can see, that's partially true; except we have macros like the threading-macros (<code>-&gt;</code>, <code>-&gt;&gt;</code>)
+that makes it possible to write the same piece of code in a much more succinct, readable manner.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-clojure"><span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">-&gt;&gt;</span> instruments
+     <span style="color: #b58900;">(</span>map #<span style="color: #268bd2;">(</span>last <span style="color: #268bd2;">%</span><span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span>
+     <span style="color: #b58900;">(</span>filter number?<span style="color: #b58900;">)</span>
+     <span style="color: #b58900;">(</span>reduce +<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+</pre>
+</div>
+
+<pre class="example">
+74900
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgheadline15" class="outline-2">
+<h2 id="orgheadline15"><span class="section-number-2">2</span> Om.next</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+An accumulation of ideas from Falcor, Relay &amp; Datomic
+</p>
+<div class="NOTES">
+<p>
+I mentioned earlier that the Clojure-community tends to be thorough. <code>Om.next</code>
+and David Nolean is a testament to that. If you where to ask me, I think
+<code>om.next</code> is more production-grade quality than anything you can find on <code>npm</code>,
+but it's still in alpha.
+</p>
+
+</div>
+</div>
+<div id="outline-container-orgheadline14" class="outline-3">
+<h3 id="orgheadline14"><span class="section-number-3">2.1</span> What Sets It Apart?</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+Views in Control
+</p>
+
+<p>
+No Garbage Over the Wire
+</p>
+
+<p>
+Efficient Caching
+</p>
+
+<p>
+Manipulation of Time
+</p>
+
+<p>
+World-Inspection
+</p>
+</div>
+
+<div id="outline-container-orgheadline9" class="outline-4">
+<h4 id="orgheadline9"><span class="section-number-4">2.1.1</span> Views in Control</h4>
+<div class="outline-text-4" id="text-2-1-1">
+<p>
+So, what I mean about views being in control is the fact that they query for the data they need directly.
+Not only do they query for their data directly, but also the shape they want to receive it in.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-clojure" id="orgsrcblock1"><span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">defview</span> <span style="color: #268bd2;">ContactPhoto</span>
+  <span style="color: #b58900;">[</span>user <span style="color: #268bd2;">[</span>fullname photo<span style="color: #268bd2;">]</span><span style="color: #b58900;">]</span>
+  <span style="color: #b58900;">(</span>render
+   <span style="color: #268bd2;">(</span>html <span style="color: #6c71c4;">[</span><span style="color: #268bd2; font-weight: bold;">:img</span> <span style="color: #859900;">{</span><span style="color: #268bd2; font-weight: bold;">:alt</span> fullname <span style="color: #268bd2; font-weight: bold;">:src</span> photo<span style="color: #859900;">}</span><span style="color: #6c71c4;">]</span><span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+
+<span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">defview</span> <span style="color: #268bd2;">Contact</span>
+  <span style="color: #b58900;">[</span>db <span style="color: #268bd2;">[</span>id<span style="color: #268bd2;">]</span> <span style="color: #268bd2;">{</span>user <span style="color: #6c71c4;">[</span>firstname lastname email <span style="color: #b58900;">ContactPhoto</span><span style="color: #6c71c4;">]</span><span style="color: #268bd2;">}</span><span style="color: #b58900;">]</span>
+  <span style="color: #b58900;">(</span>render
+   <span style="color: #268bd2;">(</span><span style="color: #859900; font-weight: bold;">let</span> <span style="color: #6c71c4;">[</span>fullname <span style="color: #859900;">(</span>str firstname <span style="color: #2aa198;">" "</span> lastname<span style="color: #859900;">)</span>
+         props <span style="color: #859900;">(</span><span style="color: #b58900;">om</span><span style="color: #839496; background-color: #002b36;">/</span>props this<span style="color: #859900;">)</span><span style="color: #6c71c4;">]</span>
+     <span style="color: #6c71c4;">(</span>html <span style="color: #859900;">[</span><span style="color: #268bd2; font-weight: bold;">:li</span>
+            <span style="color: #b58900;">[</span><span style="color: #268bd2;">(</span>contact-photo <span style="color: #6c71c4;">(</span><span style="color: #b58900;">om</span><span style="color: #839496; background-color: #002b36;">/</span>computed props <span style="color: #859900;">{</span><span style="color: #268bd2; font-weight: bold;">:fullname</span> fullname<span style="color: #859900;">}</span><span style="color: #6c71c4;">)</span><span style="color: #268bd2;">)</span><span style="color: #b58900;">]</span>
+            <span style="color: #b58900;">[</span><span style="color: #268bd2; font-weight: bold;">:a</span> <span style="color: #268bd2;">{</span><span style="color: #268bd2; font-weight: bold;">:href</span> <span style="color: #6c71c4;">(</span>str <span style="color: #2aa198;">"mailto:"</span> email<span style="color: #6c71c4;">)</span><span style="color: #268bd2;">}</span> fullname<span style="color: #b58900;">]</span><span style="color: #859900;">]</span><span style="color: #6c71c4;">)</span><span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+
+<span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">defview</span> <span style="color: #268bd2;">Contacts</span>
+  <span style="color: #b58900;">[</span><span style="color: #268bd2;">{</span>contacts <span style="color: #b58900;">Contact</span><span style="color: #268bd2;">}</span><span style="color: #b58900;">]</span>
+  <span style="color: #b58900;">(</span>render
+   <span style="color: #268bd2;">(</span>html <span style="color: #6c71c4;">[</span><span style="color: #268bd2; font-weight: bold;">:ul</span> <span style="color: #859900;">(</span>map contact contacts<span style="color: #859900;">)</span><span style="color: #6c71c4;">]</span><span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+</pre>
+</div>
+
+<p>
+So, we have some well-defined views that all query for whatever they need.
+Now, lets have a look at what's being asked for over the wire.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-clojure"><span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">in-ns</span> '<span style="color: #b58900;">persuade.views.contacts</span><span style="color: #2aa198;">)</span>
+<span style="color: #2aa198;">(</span><span style="color: #b58900;">om</span><span style="color: #839496; background-color: #002b36;">/</span>get-query <span style="color: #b58900;">Contacts</span><span style="color: #2aa198;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgheadline10" class="outline-4">
+<h4 id="orgheadline10"><span class="section-number-4">2.1.2</span> No Garbage Over the Wire</h4>
+<div class="outline-text-4" id="text-2-1-2">
+<p>
+Now, lets actually send the query and see what's really returned.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-clojure" id="orgsrcblock2"><span style="color: #2aa198;">(</span>parser <span style="color: #b58900;">{</span><span style="color: #268bd2; font-weight: bold;">:state</span> app-state<span style="color: #b58900;">}</span> <span style="color: #b58900;">(</span><span style="color: #b58900;">om</span><span style="color: #839496; background-color: #002b36;">/</span>get-query <span style="color: #b58900;">Contacts</span><span style="color: #b58900;">)</span> <span style="color: #268bd2; font-weight: bold;">:static</span><span style="color: #2aa198;">)</span>
+</pre>
+</div>
+
+<p>
+Ét voila! You can see that our vectors has turned into a map where the symbols
+are keys and they are all filled with "real values". And notice, we only get
+exactly what we asked for, no added garbage.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline11" class="outline-4">
+<h4 id="orgheadline11"><span class="section-number-4">2.1.3</span> Efficient Caching</h4>
+<div class="outline-text-4" id="text-2-1-3">
+<p>
+So the caching-story is pretty sweet. To interact with a server, you have to set
+up one or more remotes.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-clojure" id="orgsrcblock3"><span style="color: #2aa198;">[</span><span style="color: #268bd2; font-weight: bold;">:static</span> <span style="color: #268bd2; font-weight: bold;">:search</span><span style="color: #2aa198;">]</span>
+</pre>
+</div>
+
+<p>
+A function that handles send/receive to and from the server and a bunch of
+parsers that use these remotes as well as place the data at the correct position
+in your application-state.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-clojure" id="orgsrcblock4"><span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">defmethod</span> <span style="color: #268bd2;">read</span> <span style="color: #268bd2; font-weight: bold;">:default</span>
+  <span style="color: #b58900;">[</span><span style="color: #268bd2;">{</span><span style="color: #268bd2; font-weight: bold;">:keys</span> <span style="color: #6c71c4;">[</span>state query<span style="color: #6c71c4;">]</span><span style="color: #268bd2;">}</span> k _<span style="color: #b58900;">]</span>
+  <span style="color: #b58900;">(</span><span style="color: #859900; font-weight: bold;">let</span> <span style="color: #268bd2;">[</span>st @state<span style="color: #268bd2;">]</span>
+    <span style="color: #268bd2;">(</span><span style="color: #859900; font-weight: bold;">if</span> <span style="color: #6c71c4;">(</span>contains? st k<span style="color: #6c71c4;">)</span>
+      <span style="color: #6c71c4;">{</span><span style="color: #268bd2; font-weight: bold;">:value</span> <span style="color: #859900;">(</span><span style="color: #b58900;">om</span><span style="color: #839496; background-color: #002b36;">/</span>db-&gt;tree query st st<span style="color: #859900;">)</span><span style="color: #6c71c4;">}</span>
+      <span style="color: #6c71c4;">{</span><span style="color: #268bd2; font-weight: bold;">:static</span> <span style="color: #268bd2; font-weight: bold;">true</span><span style="color: #6c71c4;">}</span><span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+
+<pre class="src src-clojure" id="orgsrcblock5"><span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">defmethod</span> <span style="color: #268bd2;">mutate</span> <span style="color: #268bd2; font-weight: bold;">:default</span>
+  <span style="color: #b58900;">[</span>_ _ _<span style="color: #b58900;">]</span>
+  <span style="color: #b58900;">{</span><span style="color: #268bd2; font-weight: bold;">:static</span> <span style="color: #268bd2; font-weight: bold;">true</span><span style="color: #b58900;">}</span><span style="color: #2aa198;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgheadline12" class="outline-4">
+<h4 id="orgheadline12"><span class="section-number-4">2.1.4</span> Manipulation of Time</h4>
+</div>
+<div id="outline-container-orgheadline13" class="outline-4">
+<h4 id="orgheadline13"><span class="section-number-4">2.1.5</span> World-Inspection</h4>
+<div class="outline-text-4" id="text-2-1-5">
+<p>
+\newpage
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgheadline19" class="outline-2">
+<h2 id="orgheadline19"><span class="section-number-2">3</span> Datomic</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Is a time-aware database that stores facts
+</p>
+</div>
+<div id="outline-container-orgheadline16" class="outline-3">
+<h3 id="orgheadline16"><span class="section-number-3">3.1</span> Query / Transaction / Storage</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+Exchangable Query-Language
+</p>
+<p>
+ACID-Transactions
+</p>
+<p>
+Plethora of Available Storages (Dynamo, Postgres ..)
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline17" class="outline-3">
+<h3 id="orgheadline17"><span class="section-number-3">3.2</span> Facts</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+Makes it Possible to go Back and Forth in Time
+</p>
+<p>
+Facts can be About a Transaction
+</p>
+<p>
+You Never Loose Anything
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline18" class="outline-3">
+<h3 id="orgheadline18"><span class="section-number-3">3.3</span> Pull-syntax</h3>
+<div class="outline-text-3" id="text-3-3">
+<p>
+Just like Falcor and Relay, Datomic allows the client to decide the shape of the
+data returned
+</p>
+<div class="org-src-container">
+
+<pre class="src src-clojure"><span style="color: #586e75;">;; </span><span style="color: #586e75;">pattern</span>
+<span style="color: #2aa198;">[</span><span style="color: #268bd2; font-weight: bold;">:</span><span style="color: #b58900; font-weight: bold;">artist</span><span style="color: #839496; background-color: #002b36; font-weight: bold;">/</span><span style="color: #268bd2; font-weight: bold;">name</span> <span style="color: #268bd2; font-weight: bold;">:</span><span style="color: #b58900; font-weight: bold;">artist</span><span style="color: #839496; background-color: #002b36; font-weight: bold;">/</span><span style="color: #268bd2; font-weight: bold;">gid</span><span style="color: #2aa198;">]</span>
+
+<span style="color: #586e75;">;; </span><span style="color: #586e75;">result</span>
+<span style="color: #2aa198;">{</span><span style="color: #268bd2; font-weight: bold;">:</span><span style="color: #b58900; font-weight: bold;">artist</span><span style="color: #839496; background-color: #002b36; font-weight: bold;">/</span><span style="color: #268bd2; font-weight: bold;">gid</span> #uuid <span style="color: #2aa198;">"678d88b2-87b0.."</span>, <span style="color: #268bd2; font-weight: bold;">:</span><span style="color: #b58900; font-weight: bold;">artist</span><span style="color: #839496; background-color: #002b36; font-weight: bold;">/</span><span style="color: #268bd2; font-weight: bold;">name</span> <span style="color: #2aa198;">"Led Zeppelin"</span><span style="color: #2aa198;">}</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgheadline20" class="outline-2">
+<h2 id="orgheadline20"><span class="section-number-2">4</span> Garden</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+The full power of Clojure for writing stylesheets
+</p>
+<div class="org-src-container">
+
+<pre class="src src-clojure"><span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">defn</span> <span style="color: #268bd2;">drop-down</span> <span style="color: #b58900;">[]</span>
+  <span style="color: #b58900;">[</span><span style="color: #268bd2;">[</span><span style="color: #268bd2; font-weight: bold;">:menu.drop-down</span> <span style="color: #6c71c4;">{</span><span style="color: #268bd2; font-weight: bold;">:background-color</span> <span style="color: #268bd2; font-weight: bold;">:white</span>
+                     <span style="color: #268bd2; font-weight: bold;">:display</span> <span style="color: #268bd2; font-weight: bold;">:block</span>
+                     <span style="color: #268bd2; font-weight: bold;">:color</span> <span style="color: #859900;">(</span>rgb <span style="color: #6c71c4;">80</span> <span style="color: #6c71c4;">80</span> <span style="color: #6c71c4;">80</span><span style="color: #859900;">)</span>
+                     <span style="color: #268bd2; font-weight: bold;">:border-radius</span> <span style="color: #859900;">(</span>rem <span style="color: #6c71c4;">0.3</span><span style="color: #859900;">)</span>
+                     <span style="color: #268bd2; font-weight: bold;">:box-shadow</span> <span style="color: #859900;">[</span><span style="color: #b58900;">[</span><span style="color: #6c71c4;">0</span> <span style="color: #268bd2;">(</span>px <span style="color: #6c71c4;">1</span><span style="color: #268bd2;">)</span> <span style="color: #268bd2;">(</span>px <span style="color: #6c71c4;">3</span><span style="color: #268bd2;">)</span> <span style="color: #268bd2;">(</span>rgba <span style="color: #6c71c4;">0</span> <span style="color: #6c71c4;">0</span> <span style="color: #6c71c4;">0</span> <span style="color: #6c71c4;">0.3</span><span style="color: #268bd2;">)</span><span style="color: #b58900;">]</span><span style="color: #859900;">]</span>
+                     <span style="color: #268bd2; font-weight: bold;">:padding</span> <span style="color: #859900;">(</span>rem <span style="color: #6c71c4;">0.5</span><span style="color: #859900;">)</span><span style="color: #6c71c4;">}</span>
+    <span style="color: #6c71c4;">[</span><span style="color: #268bd2; font-weight: bold;">:a</span> <span style="color: #859900;">{</span><span style="color: #268bd2; font-weight: bold;">:display</span> <span style="color: #268bd2; font-weight: bold;">:block</span>
+         <span style="color: #268bd2; font-weight: bold;">:color</span> <span style="color: #268bd2; font-weight: bold;">:inherit</span>
+         <span style="color: #268bd2; font-weight: bold;">:text-decoration</span> <span style="color: #268bd2; font-weight: bold;">:none</span>
+         <span style="color: #268bd2; font-weight: bold;">:border-radius</span> <span style="color: #b58900;">(</span>rem <span style="color: #6c71c4;">0.3</span><span style="color: #b58900;">)</span>
+         <span style="color: #268bd2; font-weight: bold;">:padding</span> <span style="color: #b58900;">[</span><span style="color: #268bd2;">[</span><span style="color: #6c71c4;">(</span>rem <span style="color: #6c71c4;">0.5</span><span style="color: #6c71c4;">)</span> <span style="color: #6c71c4;">(</span>rem <span style="color: #6c71c4;">1</span><span style="color: #6c71c4;">)</span><span style="color: #268bd2;">]</span><span style="color: #b58900;">]</span><span style="color: #859900;">}</span>
+     <span style="color: #859900;">[</span><span style="color: #268bd2; font-weight: bold;">:&amp;.active</span> <span style="color: #b58900;">{</span><span style="color: #268bd2; font-weight: bold;">:background-color</span> <span style="color: #268bd2;">(</span><span style="color: #b58900;">color</span><span style="color: #839496; background-color: #002b36;">/</span>lighten <span style="color: #b58900;">c</span><span style="color: #839496; background-color: #002b36;">/</span>blue <span style="color: #6c71c4;">50</span><span style="color: #268bd2;">)</span>
+                 <span style="color: #268bd2; font-weight: bold;">:color</span> <span style="color: #b58900;">c</span><span style="color: #839496; background-color: #002b36;">/</span>blue<span style="color: #b58900;">}</span><span style="color: #859900;">]</span><span style="color: #6c71c4;">]</span><span style="color: #268bd2;">]</span><span style="color: #b58900;">]</span><span style="color: #2aa198;">)</span>
+</pre>
+</div>
+<div class="NOTES">
+<p>
+You can imagine creating grid-styles using real math-operations etc.
+It is also supported by ClojureScript, so you can do things on the fly.
+</p>
+
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Henrik Kjerringvåg</p>
+<p class="date">Created: 2016-08-15 Mon 10:17</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
